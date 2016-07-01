@@ -36,6 +36,39 @@ function h(tagName, properties, children) {
         props = {}
     }
 
+    /**
+      Shorten Attributes Writing
+    */
+    // If Has Attr
+    if(properties.attr) {
+      var attrs = properties.attr;
+      var attrKeys = Object.keys(properties.attr);
+
+      // If has both attr and attributes
+      if(properties.attributes){
+
+        // Simple Assign
+        var attributeKeys = Object.keys(properties.attributes);
+        for (var i = 0; i < attrKeys.length; i++) {
+          var attrName = attrKeys[i]
+
+          // Checking...
+          for (var j = 0; j < attributeKeys.length; j++) {
+            var attributeName = attributeKeys[j]
+            var notSame = attributeName !== attrName
+            if(notSame) properties.attributes[attrName] = properties.attr[attrName];
+          }
+
+        }
+      }
+
+      // Else, Only has attr
+      else properties.attributes = properties.attr
+
+      // Remove Attr
+      delete properties.attr
+    }
+
     props = props || properties || {}
     tag = parseTag(tagName, props)
 
